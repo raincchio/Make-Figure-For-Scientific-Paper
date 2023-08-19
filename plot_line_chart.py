@@ -1,6 +1,4 @@
 import os
-import random
-
 import matplotlib.pyplot as plt
 import numpy as np
 import time
@@ -20,7 +18,6 @@ rc_fonts = {
 }
 plt.rcParams.update(rc_fonts)
 plt.rc('axes', unicode_minus=False)
-
 
 def get_results(algo_domian_path, metrics):
 
@@ -46,7 +43,6 @@ def get_results(algo_domian_path, metrics):
         return res_dict
 
 
-
 def smooth_results(results, smoothing_window=100):
     smoothed = np.zeros_like(results)
 
@@ -61,8 +57,6 @@ def smooth_results(results, smoothing_window=100):
         smoothed[idx] = np.mean(results[start_idx:idx], axis=0)
 
     return smoothed
-
-
 
 def get_parsed_dict(paths):
     """
@@ -88,7 +82,6 @@ def get_parsed_dict(paths):
     print('retrived algos', algos)
     return domain_algo_plot, algo_domain_path, algos
 
-
 domain = 'domain1'
 algos = ['algo1', 'algo2', 'algo3', 'algo4']
 
@@ -100,16 +93,16 @@ for id, algo in enumerate(retrived_algos):
         retrived_algos.pop(id)
 algos.extend(retrived_algos)  # include more algo and keep the algo index not change
 
-COLORS = ["#ccb974", '#8172b2', '#c44e52', '#55a868', '#4c72b0', '#0000FF']
-MARKERS = ['o', '*', 's']
+COLORS = ['#77AC30','#A56DB0',"#F0C04A", '#DE6C3A', '#2988C7', '#0000FF']
+MARKERS = ['s','o','^']
 LINES = ['-', '--', ':']
 metrics = ["metric1"]
 
 # plot line chart
-plt.figure(figsize=(4.8, 4))  # width and height
-
+plt.figure(figsize=(4.8, 4.2))  # width and height
 # plot lines
 max_len = 0
+max_y_value = 0
 for algo in domain_algo_plot[domain]:
 
     data_path = algo_domain_path[algo+'-'+domain]
@@ -122,34 +115,54 @@ for algo in domain_algo_plot[domain]:
     x_vals = np.arange(len(mean))  # x axis item interval
 
     color = COLORS[algos.index(algo)]
-    marker = MARKERS[algos.index(algo)%3]
+    marker = MARKERS[algos.index(algo) % 3]
     line = LINES[algos.index(algo)//3]
     marker_num = 8
     makerevery = x_vals[-1]//marker_num
-    plt.plot(x_vals, mean, label=algo, marker=marker, markevery=makerevery, color=color, linestyle=line)
+    plt.plot(x_vals, mean, label=algo, marker=marker, markevery=makerevery,  markerfacecolor='none', markersize=5.5, markeredgewidth=1.5, color=color, linestyle=line)
     plt.fill_between(x_vals, mean - std, mean + std, color=color, alpha=0.3)
 
     if x_vals[-1] > max_len:
         max_len = x_vals[-1]
-
+    max_y_value = max(max_y_value, np.max(mean + std))
 # plot misc
 
 plt.ylabel('reward')
-plt.xlabel('steps')
+plt.xlabel('steps(M)')
 
-x_ticks_interval = 1000  # just want three ticks, let it be max_len//3
-xticks = np.arange(0, max_len, x_ticks_interval)
-plt.xticks(xticks, xticks / x_ticks_interval)
+# x_ticks_interval = 1000  # just want three ticks, let it be max_len//3
+# xticks = np.arange(0, max_len, x_ticks_interval)
+# plt.xticks(xticks, xticks / x_ticks_interval)
+
+x_ticks_values = np.arange(0, 3.1, 0.5) 
+x_ticks = [x * 1000 for x in x_ticks_values] 
+plt.xticks(x_ticks, x_ticks_values)  
 
 plt.ticklabel_format(style='sci', scilimits=(0, 0), axis='y')
 
+plt.xlim(0, x_ticks[-1])
+plt.ylim(0, np.ceil(max_y_value))
 
-lgd = plt.legend()
+
+plt.grid(True, linestyle='-', alpha=0.5)
+lgd = plt.legend(loc='lower right', bbox_to_anchor=(1, 0), ncol=2, fancybox=False, framealpha=1, edgecolor='black',prop={'size': 8})
 lgd.get_frame().set_alpha(None)
 lgd.get_frame().set_facecolor((0, 0, 0, 0))
 lgd.get_frame().set_edgecolor((0, 0, 0, 0))
 
-plt.tight_layout()
+
+legend_box = lgd.get_frame()
+legend_box.set_linewidth(0.3) 
+legend_box.set_edgecolor('black')  
+plt.subplots_adjust(right=0.7)  
+
+plt.tight_layout(rect=(0, 0.1, 1, 1))
+
+
+ax = plt.gca()
+for spine in ax.spines.values():
+    spine.set_linewidth(0.5)  
+
 timestr = time.strftime("%Y%m%d-%H%M%S")
-plt.savefig('./'+timestr +'.pdf', bbox_inches='tight', dpi=300)
+plt.savefig('./result/'+timestr +'.pdf', bbox_inches='tight',  dpi=300)
 # print('./plotting/pdf/'+task+'.pdf ','plot finished!')
