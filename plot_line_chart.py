@@ -137,5 +137,5 @@ lgd.get_frame().set_facecolor((0, 0, 0, 0))
 plt.tight_layout()
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
-plt.savefig('./result/'+timestr +'.pdf', bbox_inches='tight',  dpi=300)
+plt.savefig('./pdf/linechart.pdf', bbox_inches='tight',  dpi=300)
 # print('./plotting/pdf/'+task+'.pdf ','plot finished!')
