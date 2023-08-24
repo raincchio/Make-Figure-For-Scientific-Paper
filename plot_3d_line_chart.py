@@ -13,7 +13,7 @@ for id, algo in enumerate(retrived_algos):
     if algo in algos:  # remove null results algo
         retrived_algos.pop(id)
 algos.extend(retrived_algos)  # include more algo and keep the algo index not change
-
+algos = ['algo2']
 # COLORS = ['#77AC30', '#A56DB0', "#F0C04A", '#DE6C3A', '#2988C7', '#0000FF']
 COLORS = ["#ccb974", '#8172b2', '#c44e52', '#55a868', '#4c72b0', '#0000FF']
 
@@ -37,7 +37,8 @@ for algo in algos:
 
         if pre_domain:
             for yidx in range(0, len(mean), 5):
-                ax.plot([pre_domain['x'], idx], [yidx,yidx], [pre_domain['z'][yidx],mean[yidx]], color=color, alpha=0.2)
+                shade = yidx//(len(mean)/6)
+                ax.plot([pre_domain['x'], idx], [yidx,yidx], [pre_domain['z'][yidx],mean[yidx]], color=color, alpha=0.8-0.1*shade)
 
         pre_domain = {
             'x': idx,
@@ -50,6 +51,7 @@ for algo in algos:
 ax.set_ylabel('million steps')
 ax.set_xlabel('domain')
 ax.set_zlabel('average return')
+ax.invert_yaxis()
 # ax.legend()
 
 # plt.tight_layout()
