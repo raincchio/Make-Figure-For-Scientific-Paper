@@ -13,7 +13,6 @@ for id, algo in enumerate(retrived_algos):
     if algo in algos:  # remove null results algo
         retrived_algos.pop(id)
 algos.extend(retrived_algos)  # include more algo and keep the algo index not change
-algos = ['algo2']
 # COLORS = ['#77AC30', '#A56DB0', "#F0C04A", '#DE6C3A', '#2988C7', '#0000FF']
 COLORS = ["#ccb974", '#8172b2', '#c44e52', '#55a868', '#4c72b0', '#0000FF']
 
@@ -51,10 +50,9 @@ for algo in algos:
 ax.set_ylabel('million steps')
 ax.set_xlabel('domain')
 ax.set_zlabel('average return')
-ax.invert_yaxis()
+# ax.invert_yaxis()
 # ax.legend()
 
 # plt.tight_layout()
 ax.view_init(elev=20, azim=45, roll=0)
-timestr = time.strftime("%Y%m%d-%H%M%S")
-plt.savefig('./pdf/3dlinechart.pdf',  dpi=300)
+plt.savefig('./png/3dlinechart.png',  dpi=300)
