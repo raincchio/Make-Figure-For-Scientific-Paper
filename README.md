@@ -4,9 +4,9 @@ We built this repository hoping to provide some help to those who are not famili
 ## Data Relative Path Structure
 The relative path is organized as "./task/algo/domain/seed/progress.csv."
 
-The design intuition of this path structure is that we want to collect data for one task and draw figure for single task. The second layer path is designed as “algo” rather than “domain” because we usually keep adjusting our algorithm. We look at the algorithm results and may need to switch directories of multiple domains if the second layer is “domain.” The seed directory and the result file name are stripped, and the seed is not used to name the result for better scalability.
+The design intuition of this path structure is that we want to collect data for one task and draw figure for single task. The second layer path is designed as “algo” rather than “domain” because we usually keep adjusting our algorithm. We may need to switch directory to check the algorithm results  if the second layer is “domain.” The seed directory and the result file name are stripped, and the seed is not used to name the result for better scalability.
 
-In each "progress.csv" file, the data is organized like the following:
+In each "progress.csv" file, the result is organized like the following:
 
 + 1st row: epoch, metric1, metric2
 
