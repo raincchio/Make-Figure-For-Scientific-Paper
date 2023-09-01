@@ -48,7 +48,7 @@ for algo in domain_algo_plot[domain]:
 
     max_x_len = max(max_x_len, x_vals[-1])
     max_y_value = max(max_y_value, np.max(mean+std))
-    min_y_value = min(min_y_value, np.min(mean + std))
+    min_y_value = min(min_y_value, np.min(mean-std))
 
 # Plot misc
 plt.ylabel('reward')
