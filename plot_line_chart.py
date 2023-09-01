@@ -58,7 +58,7 @@ x_tick_interval = (max_x_len+1)//3  # just want five ticks, let it be max_len//5
 x_ticks = np.arange(0, max_x_len+2, x_tick_interval)
 plt.xticks(x_ticks, np.around(x_ticks/x_tick_interval, 1))
 plt.xlim(0, x_ticks[-1]+1)
-plt.ylim(np.ceil(min_y_value), np.ceil(max_y_value))
+plt.ylim(np.floor(min_y_value), np.ceil(max_y_value))
 plt.ticklabel_format(style='sci', scilimits=(0, 0), axis='y')
 
 plt.grid(True, linestyle='-', alpha=0.5)
